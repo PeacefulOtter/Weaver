@@ -1,13 +1,7 @@
+import Menu from "../components/home/Menu";
 
-
-import Link from "next/link";
-
-
-export default function Home() {
-  return <div>
-      <Link href='/playlist'>
-        <a>/playlist</a>
-      </Link>
-
-  </div>
+const Home = () => {
+	return <Menu />
 }
+
+export default Home;
