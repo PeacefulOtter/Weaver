@@ -1,0 +1,37 @@
+:root {
+  --1: #a5aca9;
+  --2: rgb(238, 228, 211);
+  --3: #ad8350ff;
+  --4: #525252;
+  --5: #2f2f2f;
+  --6: rgb(233, 57, 72);
+  --7: #9b1d20ff;
+  --8: rgb(35, 206, 107);
+  --9: rgb(8, 139, 40);
+  --10: rgb(168, 70, 160);
+  --11: rgb(40, 146, 215);
+  --12: rgb(247, 108, 94);
+  --13: #F68E5F;
+  --14: #F5DD90;
+  --15: #3e4c5eff;
+  --16: #2c3d55ff;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans';
+  background: var(--2)
+}
+
+/* font-family: 'Playfair Display', serif; */
+/* font-family: 'Quicksand', sans-serif; */
+/* font-family: 'Bungee Shade', cursive; */
+/* font-family: 'Kumar One Outline', cursive; */
+/* font-family: 'Noto Sans JP', sans-serif; */
+
+.img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

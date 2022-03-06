@@ -1,0 +1,31 @@
+
+
+.musicwrapper {
+    display: grid;
+    grid-template-columns: 20px 50px auto 20% 20% 5%;
+    width: 100%;
+    align-items: center;
+    padding: 5px 25px;
+    border-radius: 5px;
+}
+
+.musicwrapper:hover {
+    background-color: var(--1);;
+}
+
+.musicindex {
+    text-align: center;
+}
+
+.musicimg {
+    height: 40px;
+    background-size: contain;
+}
+
+.musictitle {
+    font-weight: bold;;
+}
+
+.musicduration {
+    text-align: right;
+}
