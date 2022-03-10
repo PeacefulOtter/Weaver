@@ -1,23 +1,15 @@
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import styles from './Playlists.module.css' 
 
-export interface PlaylistModel {
-    name: string;
-    image: string;
-    id: string;
-}
 
+const Playlist = ( { id, name, image, setPlaylistId } ) => {
 
-const Playlist = ( { id, name, image } ) => {
-
-	const movePlaylist = (id: string) => () => {
-		console.log(id);
-	}
+	const movePlaylist = (id: string) => () => setPlaylistId(id);
 
 	return (
 		<div className={styles.playlistwrapper} onClick={movePlaylist(id)}>
-			<div className={styles.playlistimg + " img"} style={{backgroundImage: `url(${image})`}}></div>
 			<div className={styles.playlistname}>{name}</div>
 		</div>
 	)
@@ -28,13 +20,16 @@ const Playlist = ( { id, name, image } ) => {
 =
 </button> */}
 
-const Playlists = ( { playlists } ) => {
+const Playlists = ( { playlists, setPlaylistId } ) => {
 	//  <div className="offcanvas offcanvas-start" tabIndex={-1} id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
 	return (
 		<div className={styles.playlists}>
 			{ playlists.map( pl => 
-				<Playlist {...pl} key={`playlist${Math.random()}`} />
+				<Playlist 
+					{...pl} 	
+					setPlaylistId={setPlaylistId} 
+					key={`playlist${Math.random()}`} />
 			) } 
 		</div>
 	)

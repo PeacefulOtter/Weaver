@@ -39,7 +39,8 @@ const musics = [
 
 export default async function handler(req: any, res: any) {
     const { id } = req.query
-    const playlist = await spotify.getPlaylist(id)
+    console.log('Requesting playlist ', id);
+    const playlist = await spotify.playlist(req, id)
     console.log(playlist);
     res.status(200).json(playlist)
 }

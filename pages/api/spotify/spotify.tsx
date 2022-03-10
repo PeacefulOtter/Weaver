@@ -1,45 +1,27 @@
+import { MySession } from "../../../types/session";
 
+const SPOTIFY_URL = 'https://api.spotify.com/v1'
 
-import SpotifyWebApi from 'spotify-web-api-node';
+const spotifyFetch = async (path: string, session: MySession) => {
+    console.log(session);
+    
+    const res = await fetch( SPOTIFY_URL + path, {
+        headers: {
+            Authorization: `Bearer ${session.user.accessToken}`,
+          },
+    } )
 
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
-const REDIRECT_URI = "http://127.0.0.1:3000/api/spotify/logged";
-
-const spotifyApi = new SpotifyWebApi( {
-  clientId: CLIENT_ID,
-  clientSecret: CLIENT_SECRET,
-  redirectUri: REDIRECT_URI
-} );
-
-const scopes = [
-    "playlist-read-private",
-    "user-read-private",
-    "user-read-playback-state",
-    "user-read-playback-position",
-    "app-remote-control",
-    "user-modify-playback-state",
-    "user-read-currently-playing",
-    "user-library-read",
-    "streaming",
-    "user-top-read",
-]
-
-const state = "dev-state"
-
-let a = 0;
-
-const spotify = {
-    getLoginURL: () => spotifyApi.createAuthorizeURL(scopes, state),
-    setTokens: async (code: string) => {
-        console.log(a++);
-        const tokens = await spotifyApi.authorizationCodeGrant(code)
-        spotifyApi.setAccessToken(tokens.body['access_token']);
-        spotifyApi.setRefreshToken(tokens.body['refresh_token']);
-    },
-    me: async () => await spotifyApi.getMe(),
-    getPlaylists: async (userId: string) => await spotifyApi.getUserPlaylists(userId),
-    getPlaylist: async (id: string) => await spotifyApi.getPlaylist(id)
+    return await res.json()
 }
+
+const spotify = { 
+    me: async (session: MySession) => 
+        await spotifyFetch("/me", session),
+    playlists: async (session: MySession) => 
+        await spotifyFetch('/me/playlists', session),
+    playlist: async (session: MySession, playlistId: string) => 
+        await spotifyFetch('/playlists/' + playlistId, session),
+}
+
 
 export default spotify;

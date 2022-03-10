@@ -1,11 +1,12 @@
-import spotify from "../spotify";
-
+import spotify from '../spotify';
 
 const handler = async (req: any, res: any) =>
 {
-    const me = await spotify.me()
-    const { id, display_name, followers, images, product } = me.body;
-    const pls = await spotify.getPlaylists(id)
+    console.log('PLAYLISTS ===');
+    
+    const me = await spotify.me(req)
+    const { display_name, followers, images, product } = me.body;
+    const pls = await spotify.playlists(req)
 
     const playlists = pls.body.items.map( pl => { 
         const { id, images, name } = pl
@@ -23,4 +24,4 @@ const handler = async (req: any, res: any) =>
     res.status(200).json( { me: user, playlists } )
 }
 
-export default handler;
+export default  handler;

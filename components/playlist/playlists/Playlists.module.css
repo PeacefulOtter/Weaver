@@ -3,8 +3,7 @@
 .playlists {
     width: 20vw;
     height: 100vh;
-    background: var(--5);
-    padding: 20px;
+    padding: 30px;
 }
 
 .playlistwrapper {
@@ -13,28 +12,19 @@
     align-items: center;
     overflow: hidden;
     margin-bottom: 15px;
-    gap: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
 }
 
 .playlistwrapper:hover {
-    cursor: pointer;
-    background: var(--15)
-}
-
-.playlistwrapper:hover .playlistname {
-    color: white;
-    font-weight: 500;
-}
-
-.playlistimg {
-    min-width: 50px;
-    min-height: 50px;
+    background: rgba(0, 0, 0, 0.1)
 }
 
 .playlistname {
     font-size: 1.1em;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--2)
+    font-weight: 500;
 }
 
