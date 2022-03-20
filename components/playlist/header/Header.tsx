@@ -2,19 +2,19 @@
 
 import styles from './Header.module.css'
 
-const Header = () => {
+const Header = ({name, image, owner}) => {
 
     return (
         <div className={styles.headerwrapper}>
             <div className={styles.headercontainer}>
-                <div className={styles.headerimg + " img"}></div>
+                <div className={styles.headerimg + " img"} style={{backgroundImage: `url(${image})`}}></div>
                 <div className="header-content">
                     <div className={styles.headertitle}>
-                        Playlist title
+                       { name }
                     </div>    
                     <div className={styles.headerstats}>
                         <div className={styles.headerauthor}>
-                            Genjyy#5432
+                            { owner.display_name }
                         </div>
                         •
                         <div className="header-songs">66 songs</div>    

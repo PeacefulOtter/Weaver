@@ -18,7 +18,6 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, account }) {
-      console.log(token, account);
       if (account) {
         token.id = account.id;
         token.expires_at = account.expires_at;
@@ -27,7 +26,6 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      console.log(session, token);
       session.user = token;
       return session;
     },
