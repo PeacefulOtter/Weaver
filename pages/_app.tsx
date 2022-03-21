@@ -1,8 +1,11 @@
 
 import { SessionProvider } from "next-auth/react"
 import { useRouter } from "next/router";
-import Playlists from "../components/playlists";
+
 import { SpotifyProvider } from "../context/SpotifyContext";
+
+import Playback from "../components/playback";
+import Playlists from "../components/playlists";
 
 import '../css/App.css';
 
@@ -22,6 +25,7 @@ export default function App({
 					<div style={{display: 'flex'}}>
 						<Playlists />
 						<Component {...pageProps} />
+						<Playback />
 					</div>
 				)}
 			</SpotifyProvider>

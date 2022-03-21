@@ -18,17 +18,26 @@
     cursor: pointer;
     padding: 5px;
     font-family: 'JetBrains Mono';
-    color: rgba(0, 0, 0, 0.8);
 }
 
 .playlistActiveWrapper {
-    color: rgba(0, 0, 0, 1.0);
-    font-weight: bolder;
+    color: white;
+}
+
+.playlistActiveWrapper:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 100px;
+    background: var(--14);
+    margin-left: -15px;
 }
 
 .playlistwrapper:hover {
-    color: rgba(0, 0, 0, 1.0);
     font-weight: bold;
+    color: white;
 }
 
 .playlistname {

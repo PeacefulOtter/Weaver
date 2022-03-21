@@ -70,7 +70,8 @@
 .playbtn svg {
     margin-left: 4px;
     font-size: 2em;
-    fill: rgba(0, 0, 0, 0.8)
+    fill: var(--5);
+    color: var(--5);
 }
 
 .playbtn:hover {

@@ -1,0 +1,54 @@
+
+
+.playbackWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--5);
+    padding: 15px 20px 10px 20px;
+    box-shadow: inset 0px 30px 40px 1px rgba(255, 255, 255, 0.01);
+    border-top: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.playbackContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.centerContainer {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.centerContainer svg {
+    font-size: 1.2em;
+}
+
+.playPauseBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 1000px;
+    background-color: white;
+    color: var(--5);
+    font-size: 1.3em;
+}
+
+.progressBar {
+    width: 40vw;
+    height: 3px;
+    background: var(--15);
+}
+
+.progressBarProgress {
+    width: 45%;
+    height: 100%;
+    background: var(--2);
+}

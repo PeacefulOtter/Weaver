@@ -1,9 +1,9 @@
 :root {
   --1: #a5aca9;
-  --2: rgb(238, 228, 211);
+  --2: rgb(218, 208, 192);
   --3: #ad8350ff;
   --4: #525252;
-  --5: #2f2f2f;
+  --5: #1f1f20;
   --6: rgb(233, 57, 72);
   --7: #9b1d20ff;
   --8: rgb(35, 206, 107);
@@ -12,7 +12,7 @@
   --11: rgb(40, 146, 215);
   --12: rgb(247, 108, 94);
   --13: #F68E5F;
-  --14: #F5DD90;
+  --14: rgb(175, 168, 154);
   --15: #3e4c5eff;
   --16: #2c3d55ff;
 }
@@ -21,7 +21,8 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans';
-  background: var(--2);
+  background: var(--5);
+  color: var(--2);
 }
 
 /* font-family: 'Playfair Display', serif; */

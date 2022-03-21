@@ -9,7 +9,7 @@
     border-radius: 3px;
     white-space: nowrap;
     font-family: 'Noto Sans JP';
-    color: rgba(0, 0, 0, 0.65);
+    color: var(--14);
 }
 
 .activeTrack {
@@ -23,8 +23,8 @@
 }
 
 .trackwrapper:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
 }
 
 .trackindex {
@@ -38,7 +38,7 @@
 }
 
 .tracktitle {
-    color: rgba(0, 0, 0, 1.0);
+    color: var(--2);
     font-weight: bold;
 }
 
