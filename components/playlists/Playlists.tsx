@@ -1,20 +1,21 @@
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSpotify } from '../../context/SpotifyContext';
-import spotify from '../../pages/api/spotify';
-import { MySession } from '../../types/session';
 
 import styles from './Playlists.module.css' 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const Playlist = ( { id, name, image, setPlaylistId } ) => {
 
+	const router = useRouter()
+	const { playlistID } = router.query
+
+	const activeStyle = id === playlistID ? styles.playlistActiveWrapper : undefined
+
 	return (
-		<div className={styles.playlistwrapper} onClick={setPlaylistId(id)}>
+		<div className={styles.playlistwrapper + ' ' + activeStyle} onClick={setPlaylistId(id)}>
 			<div className={styles.playlistname}>{name}</div>
 		</div>
 	)

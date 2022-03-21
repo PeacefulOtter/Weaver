@@ -1,6 +1,7 @@
 
 
 import styles from './Header.module.css'
+import { FiPlay } from 'react-icons/fi'
 
 const Header = ({name, image, owner}) => {
 
@@ -8,7 +9,7 @@ const Header = ({name, image, owner}) => {
         <div className={styles.headerwrapper}>
             <div className={styles.headercontainer}>
                 <div className={styles.headerimg + " img"} style={{backgroundImage: `url(${image})`}}></div>
-                <div className="header-content">
+                <div className={styles.headercontent}>
                     <div className={styles.headertitle}>
                        { name }
                     </div>    
@@ -23,6 +24,8 @@ const Header = ({name, image, owner}) => {
                     </div>
                 </div>
             </div>
+            <div className={styles.playbtn}><FiPlay /></div>
+            
         </div>
     )
 }
