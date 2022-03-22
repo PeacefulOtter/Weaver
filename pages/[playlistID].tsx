@@ -23,7 +23,7 @@ const Home = ( { image, name, owner, tracks  } ) => {
                 ? <div className={styles.playlistwrapper}>
                     <div className={styles.playlistcontainer}>
                         { tracks.map( (track: TrackModel, i: number) => 
-                            <Track key={`track-${Math.random()}`} {...track} index={i} /> 
+                            <Track key={`track-${Math.random()}`} track={track} index={i} /> 
                         ) }
                     </div>
                 </div>

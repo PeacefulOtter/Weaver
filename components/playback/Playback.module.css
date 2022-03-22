@@ -7,22 +7,42 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background: var(--5);
-    padding: 15px 20px 10px 20px;
+    height: 90px;
+    background: var(--16);
+    padding: 0px 20px;
     box-shadow: inset 0px 30px 40px 1px rgba(255, 255, 255, 0.01);
     border-top: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.playbackBtn {
+    cursor: pointer;
 }
 
 .playbackContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px;
+    gap: 15px;
+}
+
+.playbackTitle {
+    font-size: 0.9em;
+    color: white;
+}
+
+.playbackAuthors {
+    font-size: 0.8em;
+    color: var(--14)
+}
+
+.playbackControl {
+    justify-content: space-around;
+    width: 250px;
 }
 
 .centerContainer {
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
 }
 
 .centerContainer svg {
@@ -30,6 +50,7 @@
 }
 
 .playPauseBtn {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,17 +59,48 @@
     border-radius: 1000px;
     background-color: white;
     color: var(--5);
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
+.playPauseBtn:hover {
+    width: 38px;
+    height: 38px;
+}
+
+.playPauseBtn svg { fill: var(--5); }
+
 .progressBar {
-    width: 40vw;
-    height: 3px;
+    width: 30vw;
+    height: 4px;
     background: var(--15);
+    border-radius: 100px;
+}
+
+.progressBar:hover .progressBarBtn {
+    opacity: 1;
+}
+
+.progressBar:hover .progressBarProgress {
+    background-color: green;
+}
+
+.progressBarBtn {
+    opacity: 0;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: var(--2);
+    border-radius: 100px;;
 }
 
 .progressBarProgress {
     width: 45%;
     height: 100%;
     background: var(--2);
+    border-radius: 100px;
+}
+
+.playbackArrow {
+    font-size: 1.3em;
+    margin: 0px 0px;
 }

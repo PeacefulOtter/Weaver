@@ -13,7 +13,7 @@
 }
 
 .activeTrack {
-    background: rgba(137, 231, 184, 0.856);
+    background: var(--16);
 }
 
 .trackwrapper * {

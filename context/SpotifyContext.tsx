@@ -2,21 +2,34 @@
 import axios from "axios";
 import {
 	createContext,
+	Dispatch,
+	SetStateAction,
 	useContext,
 	useState,
 } from "react";
-import spotify from "../pages/api/spotify";
+import { TrackID, TrackModel } from "../models/models";
 
 interface ContextProps {
+	isPlaying: boolean;
+	setIsPlaying: Dispatch<SetStateAction<boolean>>;
+
 	playlists: any[];
 	fetchPlaylists: () => Promise<void>;
-	currentTrackID: string | undefined;
-	playTrack: (id: string) => () => void;
+
+	currentTrack: TrackModel | undefined;
+	playTrack: (track: TrackModel) => () => void;
+
+	/** QUEUE **/
+	queue: TrackID[];
+	setQueue: Dispatch<SetStateAction<TrackID[]>>
+	popQueue: () => void;
+	pushQueue: (id: TrackID) => void
 }
 
 const SpotifyContext = createContext({} as ContextProps);
 
 const get = async (path: string, cb?: (data: any) => void, options?: object) => {
+	console.log(path, options);
 	try {
 		const resp = await axios.get(path, { params: options } );
 		if ( cb ) cb(resp.data);
@@ -27,8 +40,10 @@ const get = async (path: string, cb?: (data: any) => void, options?: object) => 
 
 export const SpotifyProvider = ({ children }: any) => {
 
+	const [isPlaying, setIsPlaying] = useState<boolean>(false)
   	const [playlists, setPlaylists] = useState<any[]>([]);
-	const [currentTrackID, setCurrentTrackID] = useState<string | undefined>(undefined)
+	const [currentTrack, setCurrentTrack] = useState<TrackModel | undefined>(undefined)
+	const [queue, setQueue] = useState<TrackID[]>([])
 
   	const fetchPlaylists = async () => {
 		await get('/api/playlists', (data: any) => {
@@ -37,18 +52,36 @@ export const SpotifyProvider = ({ children }: any) => {
 		})
   	};
 
-	const playTrack = (id: string) => () => {
-		console.log(id);
-		get('/api/play', (data: any) => setCurrentTrackID(id), { id })
+	const playTrack = (track: TrackModel) => () => {
+		get('/api/play', (data: any) => {
+			setCurrentTrack(track)
+			setIsPlaying(true)
+		}, { id: track.id } )
+	}
+
+	const popQueue = () => {
+		const temp = [...queue]
+		temp.shift()
+		setQueue(temp)
+	}
+
+	const pushQueue = (id: TrackID) => {
+		setQueue([...queue, id])
 	}
 
 	return (
 		<SpotifyContext.Provider
 			value={{
+				isPlaying,
+				setIsPlaying,
 				playlists,
 				fetchPlaylists,
-				currentTrackID,
-				playTrack
+				currentTrack,
+				playTrack,
+				queue,
+				setQueue,
+				popQueue,
+				pushQueue,
 			}}
 		>
 			{children}
