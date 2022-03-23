@@ -44,16 +44,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
     const { items } = tracks 
 
-    const t = items.map(item => {
+    const t = items
+        .filter(item => item.track !== null)
+        .map(item => {
         
-        const { added_at, track } = item
-        const { name, id, album, artists } = track;
-        const albumName = album.name
-        const image = album.images[Math.min(1, album.images.length - 1)].url
-        const _artists = artists.map( artist => artist.name )
-        
-        return { added_at, name, id, image, artists: _artists, album: albumName, duration: track.duration_ms }
-    })
+            const { added_at, track } = item
+            console.log(item);
+            
+            const { name, id, album, artists } = track;
+            const albumName = album.name
+            const image = album.images[Math.min(1, album.images.length - 1)].url
+            const _artists = artists.map( artist => artist.name )
+            
+            return { added_at, name, id, image, artists: _artists, album: albumName, duration: track.duration_ms }
+        })
 
     return { props: { image, name, owner, tracks: t } };
 }
