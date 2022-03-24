@@ -5,6 +5,7 @@ import Track, { TrackModel } from "../components/playlist/track";
 import { MySession } from "../types/session";
 import spotify from "./api/spotify";
 import styles from '../components/playlist/Playlist.module.css'
+import vibrant from "../lib/color";
 
 
 export interface PlaylistModel {
@@ -14,11 +15,11 @@ export interface PlaylistModel {
     musics: TrackModel[]
 }
 
-const Home = ( { image, name, owner, tracks  } ) => {
+const Home = ( { color, image, name, owner, total, tracks  } ) => {
 
     return (
         <div className={'playlist-wrapper'} style={{width: '100%', display: 'flex', 'flexDirection': 'column'}}>
-            <Header name={name} image={image} owner={owner}/>
+            <Header color={color} name={name} image={image} owner={owner} total={total}/>
             { tracks !== undefined
                 ? <div className={styles.playlistwrapper}>
                     <div className={styles.playlistcontainer}>
@@ -36,21 +37,20 @@ const Home = ( { image, name, owner, tracks  } ) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {  
     const session = await getSession(ctx) as MySession
     const playlistID = ctx.params.playlistID;
-    console.log(playlistID);
     
     const playlist = await spotify.playlist(session, playlistID as string)
     const { images, name, owner, tracks } = playlist
     const image = images[0].url
+    const color = await vibrant.getColor(image)
+
+    const { items, total, next } = tracks
     
-    const { items } = tracks 
+    // NEXT_REQUEST = next 'https://api.spotify.com/v1/playlists/3t0U0T2GvsHQDZTHM2LUmh/tracks?offset=100&limit=100'
 
     const t = items
         .filter(item => item.track !== null)
         .map(item => {
-        
             const { added_at, track } = item
-            console.log(item);
-            
             const { name, id, album, artists } = track;
             const albumName = album.name
             const image = album.images[Math.min(1, album.images.length - 1)].url
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             return { added_at, name, id, image, artists: _artists, album: albumName, duration: track.duration_ms }
         })
 
-    return { props: { image, name, owner, tracks: t } };
+    return { props: { color, image, name, owner, total, tracks: t } };
 }
 
 export default Home;

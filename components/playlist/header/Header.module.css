@@ -1,31 +1,28 @@
 
-
+.fullWrapper {
+    position: sticky;
+    top: 0;
+}
 
 .headerwrapper {
-    position: sticky;
-    top: -30vh;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
-    height: 30vh;
-    padding: 20px 0px;
-    background: var(--5);
-    transition: all 250ms;
+    padding: 30px 0px 10px 30px;
+    background: #34486d;
+    transition: all 050ms ease;
 }
 
 .headerWrapperMin {
-    top: 0;
     height: 70px;
     padding: 10px;
     align-items: center;
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .headerWrapperMin .headerimg {
     width: 50px;
     height: 50px;
 }
-
 
 .headerWrapperMin .headercontent {
     margin: 0px;
@@ -49,6 +46,10 @@
     padding: 5px;
 }
 
+.shapeMinimal svg {
+    height: 60px !important;
+}
+
 .headercontainer {
     display: flex;
     align-items: flex-end;
@@ -57,14 +58,16 @@
 }
 
 .headercontent {
-    margin-bottom: 20px;;
+    margin-bottom: 20px;
+    transition: margin 250ms ease;
 }
 
 .headerimg {
     position: relative;
     width: 20vh;
     height: 20vh;
-    background-image: url('../../../public/favicon.ico')
+    background-image: url('../../../public/favicon.ico');
+    transition: all 250ms ease;
 }
 
 .headertitle {
@@ -73,16 +76,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: font-size 250ms ease;
 }
 
 .headerauthor {
-    font-size: 1.1em;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .headerstats {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    height: 30px;
 }
 
 
@@ -104,6 +111,7 @@
     font-size: 3em;
     cursor: pointer;
     box-shadow: inset -2px -2px 2px 0px rgba(0, 0, 0, 0.2);
+    transition: all 250ms ease;
 }
 
 .playbtn svg {
@@ -115,4 +123,25 @@
 
 .playbtn:hover {
     background: rgba(74, 201, 105, 0.85)
+}
+
+
+
+.shapeDivider {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    fill: #34486d;
+}
+
+.shapeDivider svg {
+    position: relative;
+    display: block;
+    width: calc(104% + 1.3px);
+    height: 122px;
+    transition: height 250ms ease;
+}
+
+.shapeDivider .shapeFill {
+    fill: #34486d;
 }
