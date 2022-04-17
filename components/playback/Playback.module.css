@@ -47,9 +47,10 @@
 .centerContainer {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 25%);
+    transform: translate(-50%, 23%);
     flex-direction: column;
-    gap: 15px;
+    justify-content: flex-start;
+    gap: 13px;
 }
 
 .centerContainer svg {
@@ -66,18 +67,17 @@
     border-radius: 1000px;
     background-color: white;
     color: var(--5);
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .playPauseBtn:hover {
-    width: 38px;
-    height: 38px;
     color: var(--5) !important;
 }
 
 .playPauseBtn svg { fill: var(--5); }
 
 .progressBar {
+    display: flex;
     width: 30vw;
     height: 4px;
     background: var(--15);
@@ -89,24 +89,24 @@
 }
 
 .progressBar:hover .progressBarProgress {
-    background-color: green;
+    background-color: var(--green);
 }
 
 .progressBarBtn {
     opacity: 0;
-    position: absolute;
     width: 14px;
     height: 14px;
     background: var(--2);
-    border-radius: 100px;;
+    border-radius: 100px;
+    transform: translate(-5px, -5px)
 }
 
 .progressBarProgress {
-    width: 45%;
     height: 100%;
     background: var(--2);
     border-radius: 100px;
 }
+
 
 .playbackArrow {
     font-size: 1.3em;

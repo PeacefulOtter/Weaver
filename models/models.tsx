@@ -3,12 +3,16 @@
 export type TrackID = string;
 
 export interface TrackModel {
-    playTrack: (id: string) => () => void;
     added_at: string;
     name: string;
-    id: string;
+    id: TrackID;
     image: string
     artists: string[];
     album: string;
-    duration: number;
+    duration_ms: number;
+}
+
+export interface CurrentTrack extends TrackModel {
+    is_playing: boolean;
+    progress_ms: number
 }

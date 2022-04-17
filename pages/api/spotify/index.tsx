@@ -10,7 +10,7 @@ const spotifyFetch = async (path: string, session: MySession, fetchOptions: any 
 const spotifyPost = async (path: string, session: MySession ) => {
     const res = await spotifyFetch(path, session, {})
     return await res.json()
-}
+} 
 
 const spotifyPut = async (path: string, session: MySession, trackId: string ) => {
     const fetchOptions = {
@@ -20,15 +20,14 @@ const spotifyPut = async (path: string, session: MySession, trackId: string ) =>
     await spotifyFetch(path, session, fetchOptions)
 }
 
-const spotify = { 
-    me: async (session: MySession) => 
-        await spotifyPost("/me", session),
-    playlists: async (session: MySession) => 
-        await spotifyPost('/me/playlists', session),
-    playlist: async (session: MySession, playlistId: string) => 
-        await spotifyPost('/playlists/' + playlistId, session),
-    play: async (session: MySession, trackId: string) => 
-        await spotifyPut('/me/player/play', session, trackId)
+const spotify = (session: MySession) => { 
+    return {
+        me: async () => await spotifyPost("/me", session),
+        playlists: async () => await spotifyPost('/me/playlists', session),
+        playlist: async (playlistId: string) => await spotifyPost('/playlists/' + playlistId, session),
+        play: async (trackId: string) => await spotifyPut('/me/player/play', session, trackId),
+        currentlyPlaying: async () => await spotifyPost('/me/player/currently-playing', session)
+    }
 }
 
 export default spotify;

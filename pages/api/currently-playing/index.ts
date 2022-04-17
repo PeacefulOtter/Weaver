@@ -9,7 +9,7 @@ export default async function handler(
 ) {
     const session = await getSession({ req }) as MySession;
 
-    const playlists = await spotify(session).playlists();
+    const track = await spotify(session).currentlyPlaying();
 
-    res.status(200).json(playlists);
+    res.status(200).json({track});
 }

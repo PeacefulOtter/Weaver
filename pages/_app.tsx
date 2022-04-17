@@ -2,10 +2,10 @@
 import { SessionProvider } from "next-auth/react"
 import { useRouter } from "next/router";
 
-import { SpotifyProvider } from "../context/SpotifyContext";
+import Playback from "../components/playback/Playback";
+import Playlists from "../components/playlists/Playlists";
 
-import Playback from "../components/playback";
-import Playlists from "../components/playlists";
+import { SpotifyProvider } from "../context/SpotifyContext";
 
 import '../css/App.css';
 

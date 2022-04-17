@@ -5,18 +5,19 @@ import {
 	Dispatch,
 	SetStateAction,
 	useContext,
+	useEffect,
 	useState,
 } from "react";
-import { TrackID, TrackModel } from "../models/models";
+import { get } from "../assets/requests";
+import { CurrentTrack, TrackID, TrackModel } from "../models/models";
 
 interface ContextProps {
 	isPlaying: boolean;
 	setIsPlaying: Dispatch<SetStateAction<boolean>>;
 
 	playlists: any[];
-	fetchPlaylists: () => Promise<void>;
 
-	currentTrack: TrackModel | undefined;
+	currentTrack: CurrentTrack | undefined;
 	playTrack: (track: TrackModel) => () => void;
 
 	/** QUEUE **/
@@ -28,35 +29,19 @@ interface ContextProps {
 
 const SpotifyContext = createContext({} as ContextProps);
 
-const get = async (path: string, cb?: (data: any) => void, options?: object) => {
-	console.log(path, options);
-	try {
-		const resp = await axios.get(path, { params: options } );
-		if ( cb ) cb(resp.data);
-	} catch (err) {
-		console.log(err);
-	}
-}
-
 export const SpotifyProvider = ({ children }: any) => {
 
 	const [isPlaying, setIsPlaying] = useState<boolean>(false)
   	const [playlists, setPlaylists] = useState<any[]>([]);
-	const [currentTrack, setCurrentTrack] = useState<TrackModel | undefined>(undefined)
+	const [currentTrack, setCurrentTrack] = useState<CurrentTrack>()
 	const [queue, setQueue] = useState<TrackID[]>([])
 
-  	const fetchPlaylists = async () => {
-		await get('/api/playlists', (data: any) => {
-			console.log(data);
-			setPlaylists(data.items)
-		})
-  	};
 
 	const playTrack = (track: TrackModel) => () => {
-		get('/api/play', (data: any) => {
-			setCurrentTrack(track)
+		get('/api/play', { id: track.id }, (data: any) => {
+			setCurrentTrack( { ...track, is_playing: true, progress_ms: 0 } )
 			setIsPlaying(true)
-		}, { id: track.id } )
+		})
 	}
 
 	const popQueue = () => {
@@ -69,13 +54,37 @@ export const SpotifyProvider = ({ children }: any) => {
 		setQueue([...queue, id])
 	}
 
+	useEffect( () => {
+		console.log('fetching playlists and current track');
+
+		get('/api/playlists', {}, (data: any) => {
+			console.log(data);
+			setPlaylists(data.items)
+		})
+
+		get('/api/currently-playing', {}, (data: any) => {
+			console.log(data);
+			const t = data.track
+			const { is_playing, progress_ms } = t;
+			const { name, id, duration_ms, album, artists } = t.item
+			const image = album.images[Math.min(1, album.images.length - 1)].url
+            const _artists = artists.map( artist => artist.name )
+			const cur: CurrentTrack = {
+				added_at: undefined,
+				name, id, image, duration_ms,
+				album: album.name, artists: _artists,
+                is_playing, progress_ms 
+			}
+			setCurrentTrack(cur)
+		})
+	}, [])
+
 	return (
 		<SpotifyContext.Provider
 			value={{
 				isPlaying,
 				setIsPlaying,
 				playlists,
-				fetchPlaylists,
 				currentTrack,
 				playTrack,
 				queue,

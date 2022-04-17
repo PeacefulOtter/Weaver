@@ -28,12 +28,10 @@ const Playlist = ( { id, name, image, setPlaylistId, isMinimal } ) => {
 
 const Playlists = () => {
 
-	const { playlists, fetchPlaylists } = useSpotify()	
+	const { playlists } = useSpotify()	
 	const [minimal, setMinimal] = useState<boolean>(true);
 
 	const router = useRouter()
-
-	useEffect( () => { fetchPlaylists() }, [] )
 
 	const setPlaylistId = (id: string) => () => {
 		router.push('/' + id)
