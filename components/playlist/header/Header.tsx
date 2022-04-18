@@ -1,14 +1,20 @@
 
 
-import { useRef } from 'react'
+import { FC, useRef } from 'react'
 import { FiPlay } from 'react-icons/fi'
 
 import useScroll from '../../../hooks/useScroll'
+import { Playlist } from '../../../models/models'
 
 import styles from './Header.module.css'
 
+interface IHeader {
+    playlist: Playlist
+}
 
-const Header = ( { color, name, image, owner, total } ) => {
+const Header: FC<IHeader> = ( { playlist } ) => {
+
+    const { color, name, image, owner, totalTracks } = playlist
 
     const ref = useRef(null)
     const minimal = useScroll(false, ref, (ref: any, scrollY: number) => {
@@ -32,7 +38,7 @@ const Header = ( { color, name, image, owner, total } ) => {
                                 { owner.display_name }
                             </div>
                             •
-                            <div className="header-songs">{total} songs</div>    
+                            <div className="header-songs">{totalTracks} songs</div>    
                             •
                             <div className="header-duration">1h52</div>    
                         </div>

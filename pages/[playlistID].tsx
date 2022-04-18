@@ -8,40 +8,39 @@ import { MySession } from "../types/session";
 import spotify from "./api/spotify";
 import vibrant from "../lib/color";
 import { useSpotify } from "../context/SpotifyContext";
-import { TrackModel } from "../models/models";
+import { Playlist, TrackModel } from "../models/models";
 
 import styles from '../components/playlist/Playlist.module.css'
+import { FC } from "react";
 
-
-export interface PlaylistModel {
-    name: string;
-    image: string;
-    id: string;
+interface IHome {
+    playlist: Playlist;
     tracks: TrackModel[]
 }
 
-const Home = ( { color, image, name, owner, total, tracks  } ) => {
+const Home: FC<IHome> = ( { playlist, tracks } ) => {
 
     const { currentTrack } = useSpotify()
 
     return (
         <div className={'playlist-wrapper'} style={{width: '100%', display: 'flex', 'flexDirection': 'column'}}>
-            <Header color={color} name={name} image={image} owner={owner} total={total}/>
-                <div className={styles.playlistwrapper}>
-                    <div className={styles.playlistcontainer}>
-                        { tracks !== undefined
-                            ? tracks.map( (track: TrackModel, i: number) => 
-                                <Track 
-                                    key={`track-${Math.random()}`} 
-                                    track={track} 
-                                    index={i} 
-                                    isCurrentTrack={currentTrack && track.id === currentTrack.id}
-                                />
-                            )
-                            : null 
-                        }
-                    </div>
+            <Header playlist={playlist}/>
+
+            <div className={styles.playlistwrapper}>
+                <div className={styles.playlistcontainer}>
+                    { tracks !== undefined
+                        ? tracks.map( (track: TrackModel, i: number) => 
+                            <Track 
+                                key={`track-${Math.random()}`} 
+                                track={track} 
+                                index={i} 
+                                isCurrentTrack={currentTrack && track.id === currentTrack.id}
+                            />
+                        )
+                        : null 
+                    }
                 </div>
+            </div>
         </div>
     )
 }
@@ -51,16 +50,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const playlistID = ctx.params.playlistID;
     
     const playlist = await spotify(session).playlist(playlistID as string)
-    console.log(playlist);
     
     const { images, name, owner, tracks } = playlist
     const image = images[0].url
     const color = await vibrant.getColor(image)
 
     const { items, total, next } = tracks
-    
-    // NEXT_REQUEST = next 'https://api.spotify.com/v1/playlists/3t0U0T2GvsHQDZTHM2LUmh/tracks?offset=100&limit=100'
+    const { display_name, type } = owner;
 
+    const _owner = { display_name, id: owner.id, type }
+
+    const _playlist = { id: playlist.id, color, image, name, owner: _owner, total }
+    
     const _tracks: TrackModel[] = items
         .filter( (item: any) => item.track !== null)
         .map( (item: any) => {
@@ -77,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         })
 
-    return { props: { color, image, name, owner, total, tracks: _tracks } };
+    return { props: { playlist: _playlist, tracks: _tracks } };
 }
 
 export default Home;

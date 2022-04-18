@@ -8,7 +8,6 @@ import styles from './Playback.module.css'
 const Current = () => {
     
     const { currentTrack } = useSpotify()
-    console.log(currentTrack);
 
     if ( !currentTrack ) return null;
 

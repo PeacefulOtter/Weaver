@@ -76,6 +76,13 @@
 
 .playPauseBtn svg { fill: var(--5); }
 
+.progressContainer {
+    font-size: 0.9em;
+    color: #ccc;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: -3px;
+}
+
 .progressBar {
     display: flex;
     width: 30vw;

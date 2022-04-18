@@ -8,8 +8,6 @@ export default async function handler(
 	res: NextApiResponse
 ) {
     const session = await getSession({ req }) as MySession;
-
-    const track = await spotify(session).currentlyPlaying();
-
-    res.status(200).json(track);
+    const resp = await spotify(session).prev();
+    res.status(200).json({})
 }

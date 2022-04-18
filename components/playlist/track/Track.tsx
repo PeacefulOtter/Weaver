@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import TrackIndex from "./track-index/TrackIndex";
+import TrackIndex from "./TrackIndex";
 
 import { formatDate, formatTime } from "../../../assets/formats";
 import { useSpotify } from "../../../context/SpotifyContext";
@@ -24,6 +24,7 @@ const track: FC<TrackProps> = ( { index, track, isCurrentTrack } ) => {
     const {  playTrack } = useSpotify()
 
     const currentTrackStyle = isCurrentTrack ? ' ' + styles.activeTrack : ''
+    const color = isCurrentTrack ? 'var(--green)' : 'white'
 
     return (
         <div 
@@ -32,10 +33,10 @@ const track: FC<TrackProps> = ( { index, track, isCurrentTrack } ) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
-            <TrackIndex isHover={isHover} index={index} isCurrentTrack={isCurrentTrack}/>
+            <TrackIndex isHover={isHover} index={index} color={color} isCurrentTrack={isCurrentTrack}/>
             <div className={styles.trackimg + " img"} style={{backgroundImage: `url(${image})`}}></div>
             <div className={styles.tracktitleauthor}>
-                <div className={styles.tracktitle}>{name}</div>
+                <div className={styles.tracktitle} style={{color: color}}>{name}</div>
                 <div className={styles.trackauthor}>{artists.join(', ')}</div>
             </div>
             <div className={styles.trackalbum}>{album}</div>

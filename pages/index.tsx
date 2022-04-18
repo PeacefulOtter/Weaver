@@ -5,8 +5,8 @@ import { getSession } from "next-auth/react";
 
 import { isAuthenticated } from "../utils/isAuthenticated";
 import { MySession } from "../types/session";
-import User from "../components/user";
 
+import User from '../components/user/User'
 import spotify from "./api/spotify";
 
 
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	}
 	
-	const me = await spotify.me(session);
+	const me = await spotify(session).me();
 
     const { display_name, followers, images, product } = me;
 

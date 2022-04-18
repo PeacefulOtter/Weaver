@@ -11,7 +11,6 @@ export default async function handler(
     const session = await getSession({ req }) as MySession;
 
     const track = await spotify(session).play(id as string);
-    console.log(track);
 
-    res.status(200).json({'status': 'good'});
+    res.status(200).json(track);
 }

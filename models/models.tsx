@@ -2,6 +2,21 @@
 
 export type TrackID = string;
 
+export interface Owner {
+    display_name: string;
+    id: string;
+    type: string;
+}
+
+export interface Playlist {
+    id: string;
+    name: string;
+    owner: Owner;
+    totalTracks: number;
+    image: string;
+    color: string;
+}
+
 export interface TrackModel {
     added_at: string;
     name: string;
@@ -13,6 +28,5 @@ export interface TrackModel {
 }
 
 export interface CurrentTrack extends TrackModel {
-    is_playing: boolean;
-    progress_ms: number
+    position_ms: number
 }

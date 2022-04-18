@@ -9,19 +9,19 @@ const { playbackContainer, playbackControl, playbackBtn, playbackArrow, playPaus
 
 const Controller= () => {
     
-    const { isPlaying, setIsPlaying } = useSpotify()
+    const { isPlaying, resumeTrack, pauseTrack, prevTrack, nextTrack } = useSpotify()
 
     return (
         <div className={playbackContainer + " " + playbackControl}>
             <div className={playbackContainer}>
                 <div className={playbackBtn}><FiShuffle/></div>
-                <div className={playbackBtn + ' ' + playbackArrow}><FiChevronsLeft/></div>
+                <div className={playbackBtn + ' ' + playbackArrow} onClick={prevTrack}><FiChevronsLeft/></div>
             </div>
-            <div className={playbackBtn + ' ' + playPauseBtn} onClick={() => setIsPlaying(!isPlaying)}>
+            <div className={playbackBtn + ' ' + playPauseBtn} onClick={isPlaying ? pauseTrack : resumeTrack}>
                 { isPlaying ? <FiPause/> : <FiPlay style={{marginLeft: '5px'}}/> }
             </div>
             <div  className={playbackContainer}>
-                <div className={playbackBtn + ' ' + playbackArrow}><FiChevronsRight/></div>
+                <div className={playbackBtn + ' ' + playbackArrow} onClick={nextTrack}><FiChevronsRight/></div>
                 <div className={playbackBtn}><FiRotateCw/></div>
             </div>
         </div>
