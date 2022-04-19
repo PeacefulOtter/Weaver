@@ -6,7 +6,7 @@ import TrackLi from "../components/playlist/track/Track";
 
 import { MySession } from "../types/session";
 import spotify from "./api/spotify";
-import vibrant from "../lib/color";
+import vibrant from "../assets/color";
 import { useSpotify } from "../context/SpotifyContext";
 import { Playlist, Track } from "../models/models";
 
