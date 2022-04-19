@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { play } from "../assets/queries"
 import { CurrentTrack, Track } from "../models/models"
 
@@ -8,7 +8,7 @@ const range = (len: number) => {
     return Array(len).fill(1).map((x, y) => x + y - 1)
 } 
 
-const useQueue = ( shuffle: boolean, repeat: boolean ) => {
+const useQueue = ( setIsPlaying: Dispatch<SetStateAction<boolean>>, shuffle: boolean, repeat: boolean ) => {
     const [queueTracks, setQueueTracks] = useState<Track[]>()
     const [queue, setQueue] = useState<number[]>([])
 	const [pointer, setPointer] = useState<number>(0)
@@ -20,6 +20,7 @@ const useQueue = ( shuffle: boolean, repeat: boolean ) => {
         const track = tracks[_p]
         console.log(track);
         play(track, () => {
+            setIsPlaying(true)
             setCurrentTrack( { ...track, position_ms: 0 } )
             setPointer( p )
         })

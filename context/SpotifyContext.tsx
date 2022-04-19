@@ -56,7 +56,7 @@ export const SpotifyProvider = ({ children }: any) => {
 	const { 
 		queue, queueTracks, setQueue, currentTrack, 
 		movePointer, prevTrack, nextTrack, pushQueue 
-	} = useQueue(shuffle, repeat)
+	} = useQueue(setIsPlaying, shuffle, repeat)
 
 
 	const resumeTrack = () => resume( currentTrack.id, position_ms, () => setIsPlaying(true) )
@@ -64,12 +64,7 @@ export const SpotifyProvider = ({ children }: any) => {
 
 	const [position_ms, setPosition] = useProgress(currentTrack, isPlaying, nextTrack )
 
-	const playTrack = (i: number) => () => {
-		play( curTracks[i], (data: any) => {
-			movePointer(curTracks, i)
-			setIsPlaying(true)
-		})
-	}
+	const playTrack = (i: number) => () => movePointer(curTracks, i)
 
 	const getPlaybackState = () => {
 		// getPbState( (cur: CurrentTrack, state: PlaybackState) => {
