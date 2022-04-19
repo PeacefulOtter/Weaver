@@ -7,69 +7,81 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { play, next, prev, resume, pause, currentlyPlaying, getPlaylists } from "../assets/queries";
+import { play, next, prev, resume, pause, getPlaylists, getPbState } from "../assets/queries";
+import usePlaybackState from "../hooks/usePlaybackState";
 import useProgress from "../hooks/useProgress";
-import { CurrentTrack, Playlist, TrackID, TrackModel } from "../models/models";
+import useQueue from "../hooks/useQueue";
+import { CurrentTrack, Playlist, Track } from "../models/models";
 
 interface ContextProps {
 	isPlaying: boolean;
-	setIsPlaying: Dispatch<SetStateAction<boolean>>;
+	setIsPlaying: Dispatch<SetStateAction<boolean>>
+	shuffle: boolean;
+	setShuffle: Dispatch<SetStateAction<boolean>>
+	repeat: boolean;
+	setRepeat: Dispatch<SetStateAction<boolean>>
 
 	playlists: any[];
+	curTracks: Track[];
+	setCurTracks: Dispatch<SetStateAction<Track[]>>
+	queueTracks: Track[];
 
 	position_ms: number;
 	setPosition: Dispatch<SetStateAction<number>>;
 	currentTrack: CurrentTrack | undefined;
-	playTrack: (track: TrackModel) => () => void;
+	playTrack: (i: number) => () => void;
 	pauseTrack: () => void;
 	resumeTrack: () => void;
 
 	/** QUEUE **/
-	queue: TrackModel[];
-	setQueue: Dispatch<SetStateAction<TrackModel[]>>
+	queue: number[];
+	setQueue: Dispatch<SetStateAction<number[]>>
 	prevTrack: () => void;
 	nextTrack: () => void;
-	pushQueue: (track: TrackModel) => void
+	pushQueue: (index: number) => void
 }
 
 const SpotifyContext = createContext({} as ContextProps);
 
 export const SpotifyProvider = ({ children }: any) => {
-
-	const [isPlaying, setIsPlaying] = useState<boolean>(false)
+	
   	const [playlists, setPlaylists] = useState<Playlist[]>([]);
-	const [currentTrack, setCurrentTrack] = useState<CurrentTrack>()
-	const [queue, setQueue] = useState<TrackModel[]>([])
+	const [curTracks, setCurTracks] = useState<Track[]>([])
+	
+	const { 
+		isPlaying, shuffle, repeat, 
+		setIsPlaying, setShuffle, setRepeat 
+	} = usePlaybackState()
+
+	const { 
+		queue, queueTracks, setQueue, currentTrack, 
+		movePointer, prevTrack, nextTrack, pushQueue 
+	} = useQueue(shuffle, repeat)
+
 
 	const resumeTrack = () => resume( currentTrack.id, position_ms, () => setIsPlaying(true) )
 	const pauseTrack = () => pause( () => setIsPlaying(false) )
-	const prevTrack = () => prev( getCurrentlyPlaying )
-	const nextTrack = () => next( getCurrentlyPlaying )
 
 	const [position_ms, setPosition] = useProgress(currentTrack, isPlaying, nextTrack )
 
-	const playTrack = (track: TrackModel) => () => {
-		play( track, (data: any) => {
-			setCurrentTrack( { ...track, position_ms: 0 } )
+	const playTrack = (i: number) => () => {
+		play( curTracks[i], (data: any) => {
+			movePointer(curTracks, i)
 			setIsPlaying(true)
 		})
 	}
 
-	const pushQueue = (track: TrackModel) => {
-		setQueue( q => [...q, track] )
-	}
-
-	const getCurrentlyPlaying = () => {
-		currentlyPlaying( (cur: CurrentTrack, isPlaying: boolean) => {
-			console.log(cur);
-			setCurrentTrack(cur)
-			setIsPlaying(isPlaying)
-		} )
+	const getPlaybackState = () => {
+		// getPbState( (cur: CurrentTrack, state: PlaybackState) => {
+		// 	console.log(cur);
+		// 	setCurrentTrack(cur)
+		// 	setPbState(state)
+		// } )
 	}
 
 	useEffect( () => {
 		getPlaylists(setPlaylists)
-		getCurrentlyPlaying()
+		getPlaybackState()
 	}, [])
 
 	return (
@@ -77,13 +89,25 @@ export const SpotifyProvider = ({ children }: any) => {
 			value={{
 				isPlaying,
 				setIsPlaying,
+				shuffle,
+				setShuffle,
+				repeat,
+				setRepeat,
+
 				playlists,
+
+				curTracks,
+				setCurTracks,
+				queueTracks,
+				
 				position_ms,
 				setPosition,
+				
 				currentTrack,
 				playTrack,
 				pauseTrack,
 				resumeTrack,
+				
 				queue,
 				setQueue,
 				prevTrack,

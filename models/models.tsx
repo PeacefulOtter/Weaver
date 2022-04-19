@@ -17,7 +17,7 @@ export interface Playlist {
     color: string;
 }
 
-export interface TrackModel {
+export interface Track {
     added_at: string;
     name: string;
     id: TrackID;
@@ -27,6 +27,12 @@ export interface TrackModel {
     duration_ms: number;
 }
 
-export interface CurrentTrack extends TrackModel {
+export interface CurrentTrack extends Track {
     position_ms: number
+}
+
+export interface PlaybackState {
+    is_playing: boolean;
+    repeat_state: boolean;
+    shuffle_state: boolean;
 }

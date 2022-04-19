@@ -2,25 +2,29 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 
 import Header from "../components/playlist/header/Header";
-import Track from "../components/playlist/track/Track";
+import TrackLi from "../components/playlist/track/Track";
 
 import { MySession } from "../types/session";
 import spotify from "./api/spotify";
 import vibrant from "../lib/color";
 import { useSpotify } from "../context/SpotifyContext";
-import { Playlist, TrackModel } from "../models/models";
+import { Playlist, Track } from "../models/models";
 
 import styles from '../components/playlist/Playlist.module.css'
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 interface IHome {
     playlist: Playlist;
-    tracks: TrackModel[]
+    tracks: Track[]
 }
 
 const Home: FC<IHome> = ( { playlist, tracks } ) => {
 
-    const { currentTrack } = useSpotify()
+    const { setCurTracks, currentTrack } = useSpotify()
+
+    useEffect( () => {
+        setCurTracks( tracks );
+    }, [tracks])
 
     return (
         <div className={'playlist-wrapper'} style={{width: '100%', display: 'flex', 'flexDirection': 'column'}}>
@@ -29,8 +33,8 @@ const Home: FC<IHome> = ( { playlist, tracks } ) => {
             <div className={styles.playlistwrapper}>
                 <div className={styles.playlistcontainer}>
                     { tracks !== undefined
-                        ? tracks.map( (track: TrackModel, i: number) => 
-                            <Track 
+                        ? tracks.map( (track: Track, i: number) => 
+                            <TrackLi 
                                 key={`track-${Math.random()}`} 
                                 track={track} 
                                 index={i} 
@@ -47,9 +51,19 @@ const Home: FC<IHome> = ( { playlist, tracks } ) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {  
     const session = await getSession(ctx) as MySession
+
+    if ( !session || Math.floor(Date.now()) >= (session.user as any).expires_at * 1000) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+      }
+
     const playlistID = ctx.params.playlistID;
     
-    const playlist = await spotify(session).playlist(playlistID as string)
+    const playlist = await spotify(session).playlist(playlistID as string)        
     
     const { images, name, owner, tracks } = playlist
     const image = images[0].url
@@ -62,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const _playlist = { id: playlist.id, color, image, name, owner: _owner, total }
     
-    const _tracks: TrackModel[] = items
+    const _tracks: Track[] = items
         .filter( (item: any) => item.track !== null)
         .map( (item: any) => {
             const { added_at, track } = item

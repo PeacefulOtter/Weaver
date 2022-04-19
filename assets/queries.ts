@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { CurrentTrack, TrackModel } from "../models/models";
+import { CurrentTrack, PlaybackState, Track } from "../models/models";
 import { get } from "./requests";
 
 
@@ -7,23 +7,34 @@ export const getPlaylists = (cb: Dispatch<SetStateAction<any[]>>) => {
     get('/api/playlists', {}, (data: any) => cb(data.items) )
 }
 
-export const currentlyPlaying = (cb: (cur: CurrentTrack, isPlaying: boolean) => void ) => {
-    get('/api/currently-playing', {}, (t: any) => {
-        const { is_playing, progress_ms } = t;
+export const getPbState = (cb: (cur: CurrentTrack, state: PlaybackState) => void ) => {
+    get('/api/playback-state', {}, (t: any) => {
+
+        const { is_playing, progress_ms, timestamp, repeat_state, shuffle_state } = t;
         const { name, id, duration_ms, album, artists } = t.item
+
         const image = album.images[Math.min(1, album.images.length - 1)].url
         const _artists = artists.map( artist => artist.name )
+
+        const position_ms = (new Date().getTime() - timestamp) + progress_ms
+        console.log(progress_ms, position_ms);
+
         const cur: CurrentTrack = {
             added_at: undefined,
             name, id, image, duration_ms,
             album: album.name, artists: _artists,
-            position_ms: progress_ms 
+            position_ms 
         }
-        cb(cur, is_playing)
+
+        const state: PlaybackState = {
+            is_playing, repeat_state, shuffle_state
+        }
+
+        cb(cur, state)
     })
 }
 
-export const play = ( track: TrackModel, cb: (data: any) => void ) => {
+export const play = ( track: Track, cb: (data: any) => void ) => {
     get('/api/play', { id: track.id }, cb )
 }
 

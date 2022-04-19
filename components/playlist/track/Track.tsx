@@ -5,18 +5,18 @@ import TrackIndex from "./TrackIndex";
 import { formatDate, formatTime } from "../../../assets/formats";
 import { useSpotify } from "../../../context/SpotifyContext";
 import useHover from "../../../hooks/useHover";
-import { TrackModel } from "../../../models/models";
+import { Track } from "../../../models/models";
 
 import styles from './Track.module.css'
 
 
-interface TrackProps {
+interface ITrack {
     index: number;
-    track: TrackModel;
+    track: Track;
     isCurrentTrack: boolean;
 }
 
-const track: FC<TrackProps> = ( { index, track, isCurrentTrack } ) => {
+const TrackLi: FC<ITrack> = ( { index, track, isCurrentTrack } ) => {
 
     const { isHover, onMouseEnter, onMouseLeave } = useHover()
 
@@ -29,7 +29,7 @@ const track: FC<TrackProps> = ( { index, track, isCurrentTrack } ) => {
     return (
         <div 
             className={styles.trackwrapper + currentTrackStyle} 
-            onClick={playTrack(track)} 
+            onClick={playTrack(index)} 
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
@@ -46,4 +46,4 @@ const track: FC<TrackProps> = ( { index, track, isCurrentTrack } ) => {
     )
 }
 
-export default track;
+export default TrackLi;
