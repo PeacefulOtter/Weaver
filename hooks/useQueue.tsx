@@ -19,9 +19,10 @@ const useQueue = ( setIsPlaying: Dispatch<SetStateAction<boolean>>, shuffle: boo
         console.log(tracks, _p, p);
         const track = tracks[_p]
         console.log(track);
+        setCurrentTrack( { ...track, position_ms: 0 } )
+
         play(track, () => {
             setIsPlaying(true)
-            setCurrentTrack( { ...track, position_ms: 0 } )
             setPointer( p )
         })
     }

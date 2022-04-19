@@ -13,7 +13,7 @@ const Current = () => {
 
     return (
         <>
-        <Image src={currentTrack.image} className={styles.playbackImg} width={'60px'} height={'60px'} />
+        <div className={styles.playbackImg + " img"} style={{backgroundImage: `url(${currentTrack.image})`, width: "60px", height: '60px'}}></div>
         <div>
             <div className={styles.playbackTitle}>{currentTrack.name}</div>
             <div className={styles.playbackAuthors}>{currentTrack.artists}</div>
