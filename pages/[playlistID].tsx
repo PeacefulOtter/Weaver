@@ -52,15 +52,6 @@ const Home: FC<IHome> = ( { playlist, tracks } ) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {  
     const session = await getSession(ctx) as MySession
 
-    if ( !session || Math.floor(Date.now()) >= (session.user as any).expires_at * 1000) {
-        return {
-            redirect: {
-                destination: "/login",
-                permanent: false,
-            },
-        };
-      }
-
     const playlistID = ctx.params.playlistID;
     
     const playlist = await spotify(session).playlist(playlistID as string)        
@@ -74,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const _owner = { display_name, id: owner.id, type }
 
-    const _playlist = { id: playlist.id, color, image, name, owner: _owner, total }
+    const _playlist: Playlist = { id: playlist.id, color, image, name, owner: _owner, totalTracks: total }
     
     const _tracks: Track[] = items
         .filter( (item: any) => item.track !== null)

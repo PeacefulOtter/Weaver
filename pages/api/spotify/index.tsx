@@ -3,8 +3,6 @@ import { MySession } from "../../../types/session";
 const SPOTIFY_URL = 'https://api.spotify.com/v1'
 
 const spotifyFetch = async (path: string, session: MySession, fetchOptions: any = {} ) => {
-    console.log(session);
-    
     const init = { headers: {  Authorization: `Bearer ${session.user.accessToken}` } }
     const resp = await fetch( SPOTIFY_URL + path, { ...init, ...fetchOptions } )
     return resp

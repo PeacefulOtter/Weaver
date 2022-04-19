@@ -37,10 +37,12 @@ const Header: FC<IHeader> = ( { playlist } ) => {
                             <div className={styles.headerauthor}>
                                 { owner.display_name }
                             </div>
-                            •
-                            <div className="header-songs">{totalTracks} songs</div>    
-                            •
-                            <div className="header-duration">1h52</div>    
+                            <div style={{display: 'flex', columnGap: '10px', color: '#aaa'}}>
+                                •
+                                <div className="header-songs">{totalTracks} songs</div>    
+                                •
+                                <div className="header-duration">1h52</div>  
+                            </div>
                         </div>
                     </div>
                 </div>
